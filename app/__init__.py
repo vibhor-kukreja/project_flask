@@ -1,3 +1,5 @@
+"""This module is the core of the project."""
+
 # Import flask and template operators
 from flask import Flask, render_template
 
@@ -18,6 +20,11 @@ db = SQLAlchemy(app)
 # Sample HTTP error handling
 @app.errorhandler(404)
 def not_found(error):
+    """
+    Render the 404 page
+    :param error: Error message
+    :return: 404 HTML
+    """
     print(error)
     return render_template("404.html"), 404
 

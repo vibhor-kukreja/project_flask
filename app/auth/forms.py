@@ -1,20 +1,27 @@
+"""Defines the Auth forms"""
 # Import Form and RecaptchaField (optional)
 # from flask.ext.wtf import Form # , RecaptchaField
 from wtforms import Form
 
 # Import Form elements such as TextField and BooleanField (optional)
-from wtforms import PasswordField, TextField  # BooleanField
+from wtforms import PasswordField, StringField  # BooleanField
 
 # Import Form validators
-from wtforms.validators import Email, EqualTo, Required
+from wtforms.validators import Email, DataRequired
+
 
 # Define the login form (WTForms)
 
 
 class LoginForm(Form):
-    email = TextField(
-        "Email Address", [Email(), Required(message="Forgot your email address?")]
+    """
+    Class defining the login form
+    """
+
+    email = StringField(
+        "Email Address",
+        [Email(), DataRequired(message="Forgot your email address?")]
     )
     password = PasswordField(
-        "Password", [Required(message="Must provide a password. ;-)")]
+        "Password", [DataRequired(message="Must provide a password. ;-)")]
     )
