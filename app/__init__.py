@@ -1,16 +1,21 @@
 """This module is the core of the project."""
+import os
 
 # Import flask and template operators
 from flask import Flask, render_template
 
 # Import SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
+from config import APP_ENV_CONFIGS
 
 # Define the WSGI application object
 app = Flask(__name__)
 
 # Configurations
-app.config.from_object("config")
+if not os.getenv("FLASK_ENV"):
+    app.config["ENV"] = "local"
+environment_config = APP_ENV_CONFIGS[app.config["ENV"]]
+app.config.from_object(environment_config)
 
 # Define the database object which is imported
 # by modules and controllers
