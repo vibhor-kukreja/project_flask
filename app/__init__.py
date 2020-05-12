@@ -6,6 +6,9 @@ from flask import Flask, render_template
 
 # Import SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
+from flask_marshmallow import Marshmallow
+from flask_jwt_extended import JWTManager
+
 from config import APP_ENV_CONFIGS
 
 # Define the WSGI application object
@@ -25,6 +28,11 @@ app.config.from_object(environment_config)
 # Define the database object which is imported
 # by modules and controllers
 db = SQLAlchemy(app)
+ma = Marshmallow(app)
+
+# Setup the Flask-JWT-Extended extension
+app.config['JWT_SECRET_KEY'] = app.config['JWT_SECRET_KEY']
+jwt = JWTManager(app)
 
 
 # Sample HTTP error handling
