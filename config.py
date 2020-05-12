@@ -55,7 +55,7 @@ class ProductionConfig(LocalConfig):
     DEBUG = False
 
 
-flask_config = {
+APP_ENV_CONFIGS = {
     "local": "config.LocalConfig",
     "production": "config.ProductionConfig",
     "staging": "config.StagingConfig"
