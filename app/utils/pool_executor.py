@@ -1,7 +1,9 @@
 import concurrent.futures
 
+from app.utils.constants import POOL_CHUNK_SIZE
 
-def process_executor_in_chunks(func, context, chunk_size=100):
+
+def process_executor_in_chunks(func, context, chunk_size=POOL_CHUNK_SIZE):
     """
     Concurrent processing using Processes. Suited for computational operations
     :param func: function that needs to be call concurrently
@@ -29,7 +31,7 @@ def process_executor_in_chunks(func, context, chunk_size=100):
     return True
 
 
-def thread_executor_in_chunks(func, context, chunk_size=100):
+def thread_executor_in_chunks(func, context, chunk_size=POOL_CHUNK_SIZE):
     """
     Concurrent processing using Threads. Suited for IO operations.
     :param func: function that needs to be call concurrently
