@@ -14,7 +14,12 @@ app = Flask(__name__)
 # Configurations
 if not os.getenv("FLASK_ENV"):
     app.config["ENV"] = "local"
-environment_config = APP_ENV_CONFIGS[app.config["ENV"]]
+try:
+    environment_config = APP_ENV_CONFIGS[app.config["ENV"]]
+except KeyError:
+    raise EnvironmentError(
+        "FLASK_ENV not set properly. Options: [local, production, staging]")
+
 app.config.from_object(environment_config)
 
 # Define the database object which is imported
