@@ -1,16 +1,22 @@
 """This module is the core of the project."""
 
+import os
+
 # Import flask and template operators
 from flask import Flask, render_template
 
 # Import SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
+from config import flask_config
 
 # Define the WSGI application object
 app = Flask(__name__)
 
 # Configurations
-app.config.from_object("config")
+if not os.getenv("FLASK_ENV"):
+    raise EnvironmentError("FLASK_ENV not set")
+environment_config = flask_config[app.config["ENV"]]
+app.config.from_object(environment_config)
 
 # Define the database object which is imported
 # by modules and controllers
@@ -29,7 +35,7 @@ def not_found(error):
     return render_template("404.html"), 404
 
 
-# Import a module / component using its blueprint handler variable (auth)
+# Import a module / component using its blu eprint handler variable (auth)
 from app.auth.controllers import mod_auth as auth_module
 
 # Register blueprint(s)
