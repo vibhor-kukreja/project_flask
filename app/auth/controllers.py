@@ -2,11 +2,13 @@ import datetime
 import json
 
 from flask import (Blueprint, request, Response, jsonify, current_app)
+from flask_api import status
 from flask_jwt_extended import create_access_token, jwt_required, \
     get_jwt_identity
 from werkzeug.security import check_password_hash, generate_password_hash
 
 # Import module models and schemas (i.e. User)
+from app import response_maker
 from app.auth.models import User, user_schema
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
@@ -27,8 +29,10 @@ def signup():
         payload['password'] = generate_password_hash(payload['password'])
         user = User.create(**payload)
         return user
-    except ValueError as err:
-        return Response(str(err), 403)
+    except Exception as err:
+        return response_maker.\
+            build_response(status_code=status.HTTP_403_FORBIDDEN,
+                           data=str(err))
 
 
 @mod_auth.route("/login/", methods=["POST"])

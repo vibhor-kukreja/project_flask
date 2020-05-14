@@ -10,6 +10,7 @@ from flask_marshmallow import Marshmallow
 from flask_jwt_extended import JWTManager
 
 from config import APP_ENV_CONFIGS
+from app.utils.response_helper import ResponseMaker
 
 # Define the WSGI application object
 app = Flask(__name__)
@@ -29,6 +30,8 @@ app.config.from_object(environment_config)
 # by modules and controllers
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
+# define common response_maker object to be used
+response_maker = ResponseMaker()
 
 # Setup the Flask-JWT-Extended extension
 app.config['JWT_SECRET_KEY'] = app.config['JWT_SECRET_KEY']
