@@ -36,6 +36,9 @@ class LocalConfig(object):
     # Secret key for signing cookies
     SECRET_KEY = "secret"
 
+    AUTH_TOKEN_TTL_MINUTES = 60
+    JWT_SECRET_KEY = "M0n3Y_H3!5T"
+
 
 class StagingConfig(LocalConfig):
     """

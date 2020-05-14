@@ -1,6 +1,8 @@
 # Import the database object (db) from the main application module
-# We will define this inside /app/__init__.py in the next sections.
-from app import db
+from marshmallow import fields
+
+from app import db, ma
+from app.auth.constants import ErrorMessage
 
 
 class Base(db.Model):
@@ -26,23 +28,39 @@ class User(Base):
 
     __tablename__ = "auth_user"
 
-    # User Name
     name = db.Column(db.String(128), nullable=False)
-
-    # Identification Data: email & password
     email = db.Column(db.String(128), nullable=False, unique=True)
     password = db.Column(db.String(192), nullable=False)
 
-    # Authorisation Data: role & status
-    role = db.Column(db.SmallInteger, nullable=False)
-    status = db.Column(db.SmallInteger, nullable=False)
-
-    # New instance instantiation procedure
-    def __init__(self, name, email, password):
-        super(User, self).__init__()
-        self.name = name
-        self.email = email
-        self.password = password
+    @staticmethod
+    def create(name, email, password):
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            user = User(name=name,
+                        email=email,
+                        password=password)
+            db.session.add(user)
+            db.session.commit()
+            return user_schema.jsonify(user)
+        else:
+            raise ValueError(ErrorMessage.EMAIL_ALREADY_EXISTS)
 
     def __repr__(self):
         return "<User %r>" % self.name
+
+
+class UserSchema(ma.SQLAlchemyAutoSchema):
+    """
+    Defined User schema
+    """
+    # password will not be send in response.
+    password = fields.Str(load_only=True)
+
+    class Meta:
+        model = User
+        fields = ('id', 'name', 'email', 'password', 'date_created',
+                  'date_modified')
+
+
+user_schema = UserSchema()
+users_schema = UserSchema(many=True)
