@@ -39,6 +39,10 @@ class LocalConfig(object):
     AUTH_TOKEN_TTL_MINUTES = 60
     JWT_SECRET_KEY = "M0n3Y_H3!5T"
 
+    # Logs
+    LOG_LEVEL = 'DEBUG'
+    LOG_FILE_PATH = "app/logger/logs"
+
 
 class StagingConfig(LocalConfig):
     """
@@ -48,6 +52,10 @@ class StagingConfig(LocalConfig):
     CSRF_SESSION_KEY = "staging-csrf-secret"
     DEBUG = False
 
+    # Logs
+    LOG_LEVEL = 'DEBUG'
+    LOG_FILE_PATH = "app/logger/logs"
+
 
 class ProductionConfig(LocalConfig):
     """
@@ -56,6 +64,10 @@ class ProductionConfig(LocalConfig):
     SECRET_KEY = "prod-secret"
     CSRF_SESSION_KEY = "production-csrf-secret"
     DEBUG = False
+
+    # Logs
+    LOG_LEVEL = 'INFO'
+    LOG_FILE_PATH = "app/logger/logs"
 
 
 APP_ENV_CONFIGS = {

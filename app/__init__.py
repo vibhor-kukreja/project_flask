@@ -14,9 +14,6 @@ from app.utils.response_helper import success_response as success, \
                                       failure_response as failure, \
                                       error_response as error
 
-# Import logger
-from app.logger import logger
-
 # Define the WSGI application object
 app = Flask(__name__)
 
@@ -30,6 +27,9 @@ except KeyError:
         "FLASK_ENV not set properly. Options: [local, production, staging]")
 
 app.config.from_object(environment_config)
+
+# Import logger
+from app.logger import logger
 
 # Define the database object which is imported
 # by modules and controllers

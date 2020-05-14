@@ -3,14 +3,21 @@
 import logging.handlers
 import logging
 
+# Importing app for getting ENV variables
+# for log level and file path
+from app import app
+
 # Creating a logger object and setting the level
+
 logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
+log_level = getattr(logging, app.config.get('LOG_LEVEL'))
+logger.setLevel(log_level)
 
 # Defining the path where the logs files will be made and
-# logs of one week will be maintained
+# logs of one week will be maintained and when = 'D' means
+# logs for each day in maintained in a single file
 file_handler = logging.handlers.TimedRotatingFileHandler(
-    filename="app/logger/logs", when='D', backupCount=7)
+    filename=app.config.get("LOG_FILE_PATH"), when='D')
 
 #  Stream Handler
 stream_handler = logging.StreamHandler()
