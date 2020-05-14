@@ -36,6 +36,11 @@ class LocalConfig(object):
     # Secret key for signing cookies
     SECRET_KEY = "secret"
 
+    AWS_ACCESS_KEY_ID = '123'
+    AWS_SECRET_KEY = 'xyz'
+    AWS_ENDPOINT_URL = 'http://localhost:4572'
+    AWS_BUCKET_NAME = 'demo-bucket'
+
 
 class StagingConfig(LocalConfig):
     """

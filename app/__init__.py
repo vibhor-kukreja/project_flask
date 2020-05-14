@@ -41,10 +41,11 @@ def not_found(error):
 
 # Import a module / component using its blueprint handler variable (auth)
 from app.auth.controllers import mod_auth as auth_module
+from app.uploader.controllers import mod_uploader as uploader_module
 
 # Register blueprint(s)
 app.register_blueprint(auth_module)
-# app.register_blueprint(xyz_module)
+app.register_blueprint(uploader_module)
 # ..
 
 # Build the database:
