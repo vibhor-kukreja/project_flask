@@ -14,6 +14,9 @@ from app.utils.response_helper import success_response as success, \
                                       failure_response as failure, \
                                       error_response as error
 
+# Import logger
+from app.logger import logger
+
 # Define the WSGI application object
 app = Flask(__name__)
 
