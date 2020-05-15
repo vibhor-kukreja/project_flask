@@ -10,7 +10,8 @@ from flask_marshmallow import Marshmallow
 from flask_jwt_extended import JWTManager
 
 from config import APP_ENV_CONFIGS
-from app.utils.response_helper import ResponseMaker
+from app.utils.response_helper import success_response as success, \
+                                      failure_response as failure
 
 # Define the WSGI application object
 app = Flask(__name__)
@@ -30,8 +31,6 @@ app.config.from_object(environment_config)
 # by modules and controllers
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
-# define common response_maker object to be used
-response_maker = ResponseMaker()
 
 # Setup the Flask-JWT-Extended extension
 app.config['JWT_SECRET_KEY'] = app.config['JWT_SECRET_KEY']
@@ -56,7 +55,7 @@ from app.auth.controllers import mod_auth as auth_module
 # Register blueprint(s)
 app.register_blueprint(auth_module)
 # app.register_blueprint(xyz_module)
-# ..
+app.config['JSON_SORT_KEYS'] = False
 
 # Build the database:
 # This will create the database file using SQLAlchemy

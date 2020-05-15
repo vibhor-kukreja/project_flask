@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 from functools import partial
 import time
@@ -28,15 +29,38 @@ class ResponseMaker(object):
         :param kwargs:
         :return: JSON Response
         """
+        data = kwargs.get("data")
+        message = kwargs.get("message")
         status_code = kwargs.get('status_code')
-        data = kwargs.get('data')
-        message = kwargs.get('message')
         response_type = self.get_status(status_code)
-        return self._create_response(response_type, status_code,
-                                     data, message)
+
+        # reformat the data or message based on the response_type
+        if response_type == "SUCCESS":
+            # in case of success
+            data = self._format_response(data)
+        else:
+            # in case of error or failure
+            message = self._format_response(message)
+
+        return self._generate_response(response_type, status_code,
+                                       data, message)
 
     @staticmethod
-    def _create_response(response_type, status_code, data=None, message=None):
+    def _format_response(input_arg):
+        """
+        This method will format the given input in a desired format
+        :param input_arg: Can be value of any type including dict, list, None
+        :return: formatted input_arg
+        """
+        if input_arg is None:
+            return None
+        if isinstance(input_arg, dict):
+            return input_arg
+        else:
+            return str(input_arg)
+
+    @staticmethod
+    def _generate_response(response_type, status_code, data=None, message=None):
         """
         Defines the common response format with required parameters
         :param response_type: can be any one of 2 values: success or failure
@@ -56,3 +80,10 @@ class ResponseMaker(object):
             "data": data
             }
         return base_response
+
+
+response_maker = ResponseMaker()
+success_response = partial(response_maker.build_response,
+                           status_code=status.HTTP_200_OK)
+failure_response = partial(response_maker.build_response,
+                           status_code=status.HTTP_400_BAD_REQUEST)
