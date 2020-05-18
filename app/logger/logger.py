@@ -32,7 +32,7 @@ file_formatter = logging.Formatter(""
                                    )
 
 stream_formatter = logging.Formatter(
-    '%(asctime)-15s %(levelname)-8s %(message)s')
+    '%(asctime)-15s %(levelname)-8s %(message)s %(args)s')
 
 # Setting up the formatter with handlers and
 # adding the handlers to the logger
@@ -42,8 +42,8 @@ stream_handler.setFormatter(stream_formatter)
 
 def decorate_emit(func):
     """
-    This method will add colors to the
-    logs accordingly
+    This decorator method will add colors
+    to the logs accordingly
     :param func:
     :return:
     """
