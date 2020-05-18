@@ -50,7 +50,7 @@ def not_found(error):
     :return: 404 HTML
     """
     print(error)
-    app.logger.info("in info", {'msg': 1215})
+    logger.error("Error Occurred", {'msg': "404 - Page not found"})
     return render_template("404.html"), 404
 
 

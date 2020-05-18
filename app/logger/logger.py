@@ -27,12 +27,16 @@ file_formatter = logging.Formatter(""
                                    "{'time': '%(asctime)s',"
                                    "'name': '%(name)s', "
                                    "level': '%(levelname)s',"
+                                   "'file': '%(filename)s', "
+                                   "'line': '%(lineno)d', "
                                    "'threadName': '%(threadName)s', "
                                    "'message': '%(message)s'}"
                                    )
 
 stream_formatter = logging.Formatter(
-    '%(asctime)-15s %(levelname)-8s %(message)s %(args)s')
+    '%(asctime)-15s %(levelname)-8s '
+    '%(filename)s %(lineno)d '
+    '%(message)s %(args)s')
 
 # Setting up the formatter with handlers and
 # adding the handlers to the logger
@@ -65,6 +69,7 @@ def decorate_emit(func):
         # add colors in the level name and message
         args[0].levelname = f"{color} {args[0].levelname}\x1b[0m"
         args[0].msg = f"{color} {args[0].msg}\x1b[0m"
+        args[0].filename = f"{color} {args[0].filename}\x1b[0m"
 
         return func(*args)
 
