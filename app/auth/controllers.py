@@ -28,7 +28,7 @@ def signup():
     try:
         payload['password'] = generate_password_hash(payload['password'])
         user = User.create(**payload)
-        return success(data=payload)
+        return success(data=user)
     except ValueError as err:
         return failure(message=err)
 

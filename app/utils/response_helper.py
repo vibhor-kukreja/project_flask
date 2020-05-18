@@ -18,10 +18,12 @@ class ResponseMaker(object):
         :param status_code: Integer value ranging 200-500
         :return: String
         """
-        if status.is_success(status_code):
+        if status.is_success(status_code) or status.is_redirect(status_code):
             return "SUCCESS"
         elif status.is_client_error(status_code):
             return "FAILURE"
+        else:
+            return "ERROR"
 
     def build_response(self, **kwargs):
         """
@@ -54,8 +56,10 @@ class ResponseMaker(object):
         """
         if input_arg is None:
             return None
-        if isinstance(input_arg, dict):
+        elif isinstance(input_arg, dict):
             return input_arg
+        elif isinstance(input_arg, bytes):
+            return input_arg.decode()
         else:
             return str(input_arg)
 
@@ -87,3 +91,5 @@ success_response = partial(response_maker.build_response,
                            status_code=status.HTTP_200_OK)
 failure_response = partial(response_maker.build_response,
                            status_code=status.HTTP_400_BAD_REQUEST)
+error_response = partial(response_maker.build_response,
+                         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)

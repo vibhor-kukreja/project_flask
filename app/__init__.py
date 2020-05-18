@@ -11,7 +11,8 @@ from flask_jwt_extended import JWTManager
 
 from config import APP_ENV_CONFIGS
 from app.utils.response_helper import success_response as success, \
-                                      failure_response as failure
+                                      failure_response as failure, \
+                                      error_response as error
 
 # Define the WSGI application object
 app = Flask(__name__)
