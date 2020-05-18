@@ -10,6 +10,9 @@ from flask_marshmallow import Marshmallow
 from flask_jwt_extended import JWTManager
 
 from config import APP_ENV_CONFIGS
+from app.utils.response_helper import success_response as success, \
+                                      failure_response as failure, \
+                                      error_response as error
 
 # Define the WSGI application object
 app = Flask(__name__)
@@ -53,7 +56,7 @@ from app.auth.controllers import mod_auth as auth_module
 # Register blueprint(s)
 app.register_blueprint(auth_module)
 # app.register_blueprint(xyz_module)
-# ..
+app.config['JSON_SORT_KEYS'] = False
 
 # Build the database:
 # This will create the database file using SQLAlchemy

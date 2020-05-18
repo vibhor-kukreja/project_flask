@@ -41,7 +41,7 @@ class User(Base):
                         password=password)
             db.session.add(user)
             db.session.commit()
-            return user_schema.jsonify(user)
+            return user_schema.dump(user)
         else:
             raise ValueError(ErrorMessage.EMAIL_ALREADY_EXISTS)
 
