@@ -32,6 +32,7 @@ class ResponseMaker(object):
         :return: JSON Response
         """
         data = kwargs.get("data")
+        errors = kwargs.get("errors")
         message = kwargs.get("message")
         status_code = kwargs.get('status_code')
         response_type = self.get_status(status_code)
@@ -45,7 +46,7 @@ class ResponseMaker(object):
             message = self._format_response(message)
 
         return self._generate_response(response_type, status_code,
-                                       data, message)
+                                       data, message, errors)
 
     @staticmethod
     def _format_response(input_arg):
@@ -64,7 +65,8 @@ class ResponseMaker(object):
             return str(input_arg)
 
     @staticmethod
-    def _generate_response(response_type, status_code, data=None, message=None):
+    def _generate_response(response_type, status_code, data=None, message=None,
+                           errors=None):
         """
         Defines the common response format with required parameters
         :param response_type: can be any one of 2 values: success or failure
@@ -81,7 +83,8 @@ class ResponseMaker(object):
             "status": response_type,
             "code": status_code,
             "message": message,
-            "data": data
+            "data": data,
+            "errors": errors
             }
         return base_response
 

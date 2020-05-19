@@ -7,7 +7,6 @@ from flask import Flask, render_template
 # Import SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
-from flask_jwt_extended import JWTManager
 
 from config import APP_ENV_CONFIGS
 from app.utils.response_helper import success_response as success, \
@@ -35,10 +34,6 @@ from app.logger import logger
 # by modules and controllers
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
-
-# Setup the Flask-JWT-Extended extension
-app.config['JWT_SECRET_KEY'] = app.config['JWT_SECRET_KEY']
-jwt = JWTManager(app)
 
 
 # Sample HTTP error handling
