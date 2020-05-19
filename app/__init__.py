@@ -28,6 +28,9 @@ except KeyError:
 
 app.config.from_object(environment_config)
 
+# Import logger
+from app.logger import logger
+
 # Define the database object which is imported
 # by modules and controllers
 db = SQLAlchemy(app)
@@ -47,6 +50,7 @@ def not_found(error):
     :return: 404 HTML
     """
     print(error)
+    logger.error("Error Occurred", {'msg': "404 - Page not found"})
     return render_template("404.html"), 404
 
 
