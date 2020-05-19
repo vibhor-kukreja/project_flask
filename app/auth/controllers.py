@@ -1,17 +1,12 @@
-import datetime
 import json
 
-from flask import (Blueprint, request, Response, jsonify, current_app)
-from flask_api import status
-from flask_jwt_extended import create_access_token, jwt_required, \
-    get_jwt_identity
-from werkzeug.security import check_password_hash, generate_password_hash
+from flask import (Blueprint, request)
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
-# Import module models and schemas (i.e. User)
 from app import success, failure
-from app.auth.models import User, user_schema
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
+from app.auth.services import create_user, get_auth_token
 from app.auth.validations import user_signup, user_login
 from app.utils.validator import validator
 
@@ -26,12 +21,8 @@ def signup():
        :return: JSON response
     """
     payload = request.get_json()
-    try:
-        payload['password'] = generate_password_hash(payload['password'])
-        user = User.create(**payload)
-        return success(data=user)
-    except ValueError as err:
-        return failure(message=err)
+    error, result = create_user(**payload)
+    return success(data=result) if not error else failure(message=error)
 
 
 @mod_auth.route("/login/", methods=["POST"])
@@ -42,15 +33,8 @@ def login():
        :return: JSON response
     """
     payload = request.get_json()
-    user = User.query.filter_by(email=payload.get('email')).first()
-    if user and check_password_hash(user.password, payload.get('password')):
-        expires = datetime.timedelta(
-            minutes=current_app.config['AUTH_TOKEN_TTL_MINUTES'])
-        access_token = create_access_token(
-            identity=json.dumps({"id": user.id, "email": user.email}),
-            expires_delta=expires)
-        return success(data={"access_token": access_token})
-    return failure(message="Invalid credentials")
+    error, result = get_auth_token(**payload)
+    return success(data=result) if not error else failure(message=error)
 
 
 @mod_auth.route("/test/", methods=["GET"])

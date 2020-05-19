@@ -2,7 +2,6 @@
 from marshmallow import fields
 
 from app import db, ma
-from app.auth.constants import ErrorMessage
 
 
 class Base(db.Model):
@@ -31,19 +30,6 @@ class User(Base):
     name = db.Column(db.String(128), nullable=False)
     email = db.Column(db.String(128), nullable=False, unique=True)
     password = db.Column(db.String(192), nullable=False)
-
-    @staticmethod
-    def create(name, email, password):
-        user = User.query.filter_by(email=email).first()
-        if not user:
-            user = User(name=name,
-                        email=email,
-                        password=password)
-            db.session.add(user)
-            db.session.commit()
-            return user_schema.dump(user)
-        else:
-            raise ValueError(ErrorMessage.EMAIL_ALREADY_EXISTS)
 
     def __repr__(self):
         return "<User %r>" % self.name

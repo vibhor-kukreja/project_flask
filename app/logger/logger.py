@@ -25,12 +25,12 @@ stream_handler = logging.StreamHandler()
 # Defining the formatting style of the file and stream
 file_formatter = logging.Formatter(""
                                    "{'time': '%(asctime)s',"
-                                   "'name': '%(name)s', "
-                                   "level': '%(levelname)s',"
-                                   "'file': '%(filename)s', "
-                                   "'line': '%(lineno)d', "
-                                   "'threadName': '%(threadName)s', "
-                                   "'message': '%(message)s'}"
+                                   " 'name': '%(name)s', "
+                                   " 'level': '%(levelname)s',"
+                                   " 'file': '%(filename)s', "
+                                   " 'line': '%(lineno)d', "
+                                   " 'threadName': '%(threadName)s', "
+                                   " 'message': '%(message)s'}"
                                    )
 
 stream_formatter = logging.Formatter(
