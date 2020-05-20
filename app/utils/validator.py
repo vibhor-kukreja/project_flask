@@ -21,7 +21,5 @@ def validator(validator_fns):
             if len(errors):
                 return failure(message='Validation failed.', errors=errors)
             return f(*args, **kwargs)
-
         return __validate
-
     return _validator

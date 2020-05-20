@@ -39,6 +39,8 @@ class LocalConfig(object):
     AUTH_TOKEN_TTL_MINUTES = 60
     JWT_SECRET_KEY = "M0n3Y_H3!5T"
 
+    HOOKS_REQUIRED = True
+
     # Logs
     LOG_LEVEL = 'DEBUG'
     LOG_FILE_PATH = "app/logger/logs"

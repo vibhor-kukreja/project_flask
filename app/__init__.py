@@ -8,6 +8,7 @@ from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 
+from app.hooks import init_hooks
 from config import APP_ENV_CONFIGS
 from app.utils.response_helper import success_response as success, \
                                       failure_response as failure, \
@@ -36,17 +37,9 @@ db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
 
-# Sample HTTP error handling
-@app.errorhandler(404)
-def not_found(error):
-    """
-    Render the 404 page
-    :param error: Error message
-    :return: 404 HTML
-    """
-    print(error)
-    logger.error("Error Occurred", {'msg': "404 - Page not found"})
-    return render_template("404.html"), 404
+@app.errorhandler(Exception)
+def handle_invalid_usage(err):
+    return error(message=err)
 
 
 # Import a module / component using its blueprint handler variable (auth)
@@ -57,6 +50,10 @@ app.register_blueprint(auth_module)
 # app.register_blueprint(xyz_module)
 app.config['JSON_SORT_KEYS'] = False
 
+# Added hooks event to the request workflow.
+init_hooks(app, app.config['HOOKS_REQUIRED'])
+
 # Build the database:
 # This will create the database file using SQLAlchemy
+# TODO: Remove create_all and add seed script.
 db.create_all()
