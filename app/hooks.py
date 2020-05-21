@@ -3,9 +3,17 @@ from flask import request
 
 
 def init_hooks(app, register_hooks=False):
+    """
+    This method will initialize the
+    hooks accordingly
+    :param app: Flask object
+    :param register_hooks:
+    :return: Response
+    """
     if not register_hooks:
         return
     from app import logger
+
     @app.before_first_request
     def before_first_request():
         pass
@@ -15,8 +23,12 @@ def init_hooks(app, register_hooks=False):
         pass
     
     @app.after_request
-    def after_request(response):
-        """ Logging after every request. """
+    def after_request(response: object) -> object:
+        """
+        Logging after every request
+        :param response:
+        :return:
+        """
         logger.debug(
             "{} {} {} {} {} {} {} {} {}".format(
                 request.remote_addr,

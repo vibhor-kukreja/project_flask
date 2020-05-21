@@ -2,7 +2,9 @@
 import os
 
 # Import flask and template operators
-from flask import Flask, render_template
+from typing import Dict
+
+from flask import Flask
 
 # Import SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
@@ -38,7 +40,14 @@ ma = Marshmallow(app)
 
 
 @app.errorhandler(Exception)
-def handle_invalid_usage(err):
+def handle_invalid_usage(err: Exception) -> Dict:
+    """
+    This method will handle the exceptions
+    if any type of invalid access is reported.
+    :param err: Any kind of exception
+    :return: A JSON response with essential
+    information and an error message
+    """
     return error(message=err)
 
 
