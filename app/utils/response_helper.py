@@ -1,7 +1,7 @@
-import json
 from datetime import datetime
 from functools import partial
 import time
+from typing import AnyStr, Dict, Union
 
 from flask_api import status
 from app.utils.constants import APP_NAME, DATETIME_FORMAT
@@ -12,7 +12,7 @@ class ResponseMaker(object):
     Class containing methods to construct response as output for APIs
     """
     @staticmethod
-    def get_status(status_code):
+    def get_status(status_code: int) -> AnyStr:
         """
         To determine the type of response based on status_code
         :param status_code: Integer value ranging 200-500
@@ -25,10 +25,10 @@ class ResponseMaker(object):
         else:
             return "ERROR"
 
-    def build_response(self, **kwargs):
+    def build_response(self, **kwargs: dict) -> Dict:
         """
         This method is responsible to get values and call create_response
-        :param kwargs:
+        :param kwargs: Dict
         :return: JSON Response
         """
         data = kwargs.get("data")
@@ -49,7 +49,7 @@ class ResponseMaker(object):
                                        data, message, errors)
 
     @staticmethod
-    def _format_response(input_arg):
+    def _format_response(input_arg: str) -> Union:
         """
         This method will format the given input in a desired format
         :param input_arg: Can be value of any type including dict, list, None
@@ -65,8 +65,10 @@ class ResponseMaker(object):
             return str(input_arg)
 
     @staticmethod
-    def _generate_response(response_type, status_code, data=None, message=None,
-                           errors=None):
+    def _generate_response(response_type: str,
+                           status_code: int,
+                           data=None, message=None,
+                           errors=None) -> Dict:
         """
         Defines the common response format with required parameters
         :param response_type: can be any one of 2 values: success or failure
@@ -89,10 +91,17 @@ class ResponseMaker(object):
         return base_response
 
 
+# Initialised the response maker object
 response_maker = ResponseMaker()
+
+# Response in case of success
 success_response = partial(response_maker.build_response,
                            status_code=status.HTTP_200_OK)
+
+# Response in case of failure
 failure_response = partial(response_maker.build_response,
                            status_code=status.HTTP_400_BAD_REQUEST)
+
+# Response in case of error
 error_response = partial(response_maker.build_response,
                          status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)

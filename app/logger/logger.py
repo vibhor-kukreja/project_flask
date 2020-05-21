@@ -5,6 +5,8 @@ import logging
 
 # Importing app for getting ENV variables
 # for log level and file path
+from typing import Callable
+
 from app import app
 
 # Creating a logger object and setting the level
@@ -36,7 +38,7 @@ file_formatter = logging.Formatter(""
 stream_formatter = logging.Formatter(
     '%(asctime)-15s %(levelname)-8s '
     '%(filename)s %(lineno)d '
-    '%(message)s %(args)s')
+    '%(message)s')
 
 # Setting up the formatter with handlers and
 # adding the handlers to the logger
@@ -44,14 +46,21 @@ file_handler.setFormatter(file_formatter)
 stream_handler.setFormatter(stream_formatter)
 
 
-def decorate_emit(func):
+def decorate_emit(func: callable) -> Callable:
     """
     This decorator method will add colors
     to the logs accordingly
-    :param func:
-    :return:
+    :param func: Emit function for stream
+    :return: Function for emitting colors
+    i.e. color_log
     """
-    def color_log(*args):
+    def color_log(*args: tuple) -> Callable:
+        """
+        This method will give
+        different colors to the log.
+        :param args:
+        :return: function with changed colors
+        """
         levelno = args[0].levelno
         if levelno >= logging.CRITICAL:
             color = '\x1b[30;1m'  # White
