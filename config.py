@@ -19,7 +19,7 @@ class LocalConfig(object):
     # To disable tracking modifications on Objects by Flask-SQLAlchemy
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DATABASE_CONNECT_OPTIONS = {}
-
+    JSON_SORT_KEYS = False
     # Application threads. A common general assumption is
     # using 2 per available processor cores - to handle
     # incoming requests using one and performing background

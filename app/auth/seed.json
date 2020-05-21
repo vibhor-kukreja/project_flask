@@ -1,0 +1,20 @@
+{
+  "auth_user":
+    [
+      {
+          "name": "user01",
+          "password": "1234",
+          "email": "user01@gmail.com"
+      },
+      {
+          "name": "user02",
+          "password": "1234",
+          "email": "user02@gmail.com"
+      },
+      {
+          "name": "user03",
+          "password": "1234",
+          "email": "user03@gmail.com"
+      }
+    ]
+}
