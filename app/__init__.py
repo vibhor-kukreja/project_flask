@@ -29,14 +29,7 @@ ma = Marshmallow(app)
 
 
 @app.errorhandler(Exception)
-def handle_invalid_usage(err: Exception) -> Dict:
-    """
-    This method will handle the exceptions
-    if any type of invalid access is reported.
-    :param err: Any kind of exception
-    :return: A JSON response with essential
-    information and an error message
-    """
+def handle_invalid_usage(err):
     return error(message=err)
 
 
@@ -46,12 +39,10 @@ from app.auth.controllers import mod_auth as auth_module
 # Register blueprint(s)
 app.register_blueprint(auth_module)
 # app.register_blueprint(xyz_module)
-app.config['JSON_SORT_KEYS'] = False
 
 # Added hooks event to the request workflow.
 init_hooks(app, app.config['HOOKS_REQUIRED'])
 
-# Build the database:
-# This will create the database file using SQLAlchemy
-# TODO: Remove create_all and add seed script.
-db.create_all()
+# This will call seed script and run related methods
+from app.utils.seed_script import initialize_seed_script
+initialize_seed_script()
