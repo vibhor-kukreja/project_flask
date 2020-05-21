@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash
 
 from app import app, db, logger
 from app.auth.models import User
-from app.utils.constants import WRITING_SEED_DATA, WRITING_SUCCESSFUL
+from app.utils.constants import DisplayMessage
 
 
 class SeedClass(object):
@@ -13,7 +13,6 @@ class SeedClass(object):
     This class contains functions that will run as part of seed script
     Ex - Initializing database and storing some sample data
     """
-
     @staticmethod
     def init_database() -> None:
         """
@@ -24,7 +23,7 @@ class SeedClass(object):
         db.engine.connect()
         db.create_all()
 
-        logger.info(WRITING_SEED_DATA.format(User.__tablename__))
+        logger.info(DisplayMessage.WRITING_SEED_DATA.format(User.__tablename__))
         auth_records_to_insert = []
         auth_seed_path = os.path.join(app.root_path, "auth", "seed.json")
         with open(auth_seed_path) as seed_data:
@@ -49,6 +48,6 @@ class SeedClass(object):
         # bulk insert
         if auth_records_to_insert:
             db.engine.execute(User.__table__.insert(), auth_records_to_insert)
-        logger.info(WRITING_SUCCESSFUL.format(User.__tablename__))
+        logger.info(DisplayMessage.WRITING_SUCCESSFUL.format(User.__tablename__))
 
 
