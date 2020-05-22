@@ -408,3 +408,11 @@
 {'time': '2020-05-21 17:07:01,616', 'name': 'werkzeug',  'level': 'WARNING', 'file': '_internal.py',  'line': '113',  'threadName': 'MainThread',  'message': ' * Debugger is active!'}
 {'time': '2020-05-21 17:07:01,617', 'name': 'werkzeug',  'level': 'INFO', 'file': '_internal.py',  'line': '113',  'threadName': 'MainThread',  'message': ' * Debugger PIN: 107-898-150'}
 {'time': '2020-05-21 17:07:03,364', 'name': 'root',  'level': 'DEBUG', 'file': 'hooks.py',  'line': '42',  'threadName': 'Thread-8',  'message': '127.0.0.1 2020-05-21 11:37:03.364665 POST /auth/login/ http 200 OK 557 None '}
+{'time': '2020-05-22 15:03:28,584', 'name': 'root',  'level': 'INFO', 'file': 'seed_db.py',  'line': '20',  'threadName': 'MainThread',  'message': 'Writing seed data for auth_user'}
+{'time': '2020-05-22 15:03:28,585', 'name': 'root',  'level': 'INFO', 'file': 'seed_db.py',  'line': '45',  'threadName': 'MainThread',  'message': 'Writing successful for auth_user'}
+{'time': '2020-05-22 15:03:28,590', 'name': 'werkzeug',  'level': 'INFO', 'file': '_internal.py',  'line': '113',  'threadName': 'MainThread',  'message': ' * Running on http://0.0.0.0:3000/ (Press CTRL+C to quit)'}
+{'time': '2020-05-22 15:03:28,591', 'name': 'werkzeug',  'level': 'INFO', 'file': '_internal.py',  'line': '113',  'threadName': 'MainThread',  'message': ' * Restarting with stat'}
+{'time': '2020-05-22 15:03:28,858', 'name': 'root',  'level': 'INFO', 'file': 'seed_db.py',  'line': '20',  'threadName': 'MainThread',  'message': 'Writing seed data for auth_user'}
+{'time': '2020-05-22 15:03:28,859', 'name': 'root',  'level': 'INFO', 'file': 'seed_db.py',  'line': '45',  'threadName': 'MainThread',  'message': 'Writing successful for auth_user'}
+{'time': '2020-05-22 15:03:28,863', 'name': 'werkzeug',  'level': 'WARNING', 'file': '_internal.py',  'line': '113',  'threadName': 'MainThread',  'message': ' * Debugger is active!'}
+{'time': '2020-05-22 15:03:28,863', 'name': 'werkzeug',  'level': 'INFO', 'file': '_internal.py',  'line': '113',  'threadName': 'MainThread',  'message': ' * Debugger PIN: 257-762-660'}
