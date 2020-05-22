@@ -1,33 +1,38 @@
 """This module calls methods for seed script once called"""
-import inspect
-from typing import List
+from importlib import import_module
+from pathlib import Path
 
-from .seed_script_methods import SeedClass
+# folder name containing the executable files for seed script
+from app.utils.constants import DisplayMessage
 
+exec_dir_name = "executables"
+base_path_format = str(Path(__name__))+".{}.{}"
 
-def get_executables(class_name: object) -> List:
-    """
-    This method is supposed to take in a class and return all it's functions in
-    a list
-    :param class_name: A class which contains functions
-    :return: List containing all executable functions of a class
-    """
-    return [method_name for
-            (method_name, method_type) in inspect.getmembers(class_name)
-            if inspect.isfunction(method_type)]
+"""
+Update this with module names from /executables which contain execute()
+method. These execute methods will contain a call to seed script related 
+methods.
+"""
+seed_file_names = ["seed_db"]
 
 
 def initialize_seed_script() -> None:
     """
     This method is used to run the seed script for the app after getting all
     the required functions
-    :return:
+    :return: None
     """
-    # get all the executable methods from classes
-    executables = get_executables(SeedClass)
-    try:
-        for method in executables:
-            # run each method
-            eval(f"SeedClass.{method}()")
-    except Exception as err:
-        raise err
+    # collect all the file names and call it's execute method
+    for file in seed_file_names:
+        try:
+            module = import_module(base_path_format.format(exec_dir_name,
+                                                           file))
+            execute = getattr(module, "execute")
+            execute()
+        except AttributeError:
+            raise AttributeError(DisplayMessage.EXECUTE_MISSING.format(file))
+        except ModuleNotFoundError:
+            raise \
+                ModuleNotFoundError(DisplayMessage.MODULE_MISSING.format(file))
+        except Exception as err:
+            raise err
