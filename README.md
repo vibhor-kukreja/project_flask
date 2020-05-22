@@ -42,3 +42,37 @@ Success
 Failure/Error
 
 ```return failure(message=<YOUR_VALUE>)```
+
+
+## Environments
+
+To setup environments create a file with the environment name.
+Example: `local.env`
+```.env
+DEBUG = True
+
+# Define the database
+SQLALCHEMY_DATABASE_URI = "sqlite:///${HOME}/Desktop/app.db"
+SQLALCHEMY_TRACK_MODIFICATIONS = False
+DATABASE_CONNECT_OPTIONS = {}
+
+THREADS_PER_PAGE = 2
+CSRF_ENABLED = True
+
+# Use a secure, unique and absolutely secret key for
+# signing the data.
+CSRF_SESSION_KEY = "M0n3Y_H3!5T"
+SECRET_KEY = "M0n3Y_H3!5T"
+JWT_SECRET_KEY = "M0n3Y_H3!5T"
+
+AUTH_TOKEN_TTL_MINUTES = 60
+
+# Hooks
+HOOKS_REQUIRED = True
+
+# Logs
+LOG_LEVEL = 'DEBUG'
+LOG_FILE_PATH = "app/logger/logs"
+```
+
+Now, set the `FLASK_ENV` as `local` to use the `local.env` configuration.

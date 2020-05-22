@@ -1,9 +1,7 @@
 """This module is the core of the project."""
-import os
 
 # Import flask and template operators
 from typing import Dict
-
 from flask import Flask
 
 # Import SQLAlchemy
@@ -11,7 +9,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 
 from app.hooks import init_hooks
-from config import APP_ENV_CONFIGS
 from app.utils.response_helper import success_response as success, \
                                       failure_response as failure, \
                                       error_response as error
@@ -19,16 +16,8 @@ from app.utils.response_helper import success_response as success, \
 # Define the WSGI application object
 app = Flask(__name__)
 
-# Configurations
-if not os.getenv("FLASK_ENV"):
-    app.config["ENV"] = "local"
-try:
-    environment_config = APP_ENV_CONFIGS[app.config["ENV"]]
-except KeyError:
-    raise EnvironmentError(
-        "FLASK_ENV not set properly. Options: [local, production, staging]")
-
-app.config.from_object(environment_config)
+# # Configurations
+app.config.from_pyfile('../config.py')
 
 # Import logger
 from app.logger import logger
