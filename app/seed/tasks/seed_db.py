@@ -1,6 +1,7 @@
 """This file contains code to run seed script"""
 import json
 import os
+from sqlalchemy.exc import OperationalError
 
 from flask import current_app
 from werkzeug.security import generate_password_hash
@@ -17,7 +18,11 @@ def init_database() -> None:
     :return: None
     """
     # try to connect to an existing database, otherwise create a new db
-    db.engine.connect()
+    try:
+        db.engine.connect()
+    except OperationalError:
+        raise IOError(DisplayMessage.CONNECTION_REFUSED)
+
     db.create_all()
 
     logger.info(DisplayMessage.WRITING_SEED_DATA.format(User.__tablename__))

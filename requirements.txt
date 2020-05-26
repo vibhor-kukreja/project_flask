@@ -23,6 +23,7 @@ marshmallow==3.6.0
 marshmallow-sqlalchemy==0.23.0
 mccabe==0.6.1
 pathspec==0.8.0
+psycopg2-binary==2.8.5
 pycparser==2.20
 PyJWT==1.7.1
 pylint==2.5.2
