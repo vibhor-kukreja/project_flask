@@ -5,7 +5,7 @@ from pathlib import Path
 # folder name containing the executable files for seed script
 from app.utils.constants import DisplayMessage
 
-exec_dir_name = "executables"
+exec_dir_name = "tasks"
 base_path_format = str(Path(__name__))+".{}.{}"
 
 """
@@ -16,7 +16,7 @@ methods.
 seed_file_names = ["seed_db"]
 
 
-def initialize_seed_script() -> None:
+def init_seed_script() -> None:
     """
     This method is used to run the seed script for the app after getting all
     the required functions
