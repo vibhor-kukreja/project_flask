@@ -1,3 +1,4 @@
+celery==4.4.2
 appdirs==1.4.4
 astroid==2.4.1
 attrs==19.3.0
@@ -37,3 +38,4 @@ Werkzeug==1.0.1
 wrapt==1.12.1
 WTForms==2.3.1
 python-dotenv
+flower==0.9.4

@@ -51,8 +51,12 @@ Example: `local.env`
 ```.env
 DEBUG = True
 
-# Define the database
-SQLALCHEMY_DATABASE_URI = "sqlite:///${HOME}/Desktop/app.db"
+# Define the database - we are working with
+# url format: "postgresql://<username>:<password>@host:port/<db_name>"
+# same as docker-compose
+SQLALCHEMY_DATABASE_URI = "postgresql://postgres:password@localhost:5432/flask_db"
+# sqlite db uri
+# SQLALCHEMY_DATABASE_URI = "sqlite:///${HOME}/Desktop/app.db"
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 DATABASE_CONNECT_OPTIONS = {}
 
@@ -73,6 +77,12 @@ HOOKS_REQUIRED = True
 # Logs
 LOG_LEVEL = 'DEBUG'
 LOG_FILE_PATH = "app/logger/logs"
+
+# Celery
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_SEND_TASK_SENT_EVENT = True
+
 ```
 
 Now, set the `FLASK_ENV` as `local` to use the `local.env` configuration.
@@ -93,3 +103,24 @@ Password: 'password'
 
 ```psql -h localhost -p 5432 -U postgres -W```
 
+
+# Celery
+
+Create multiple worker for you app, that can distribute the task load
+```javascript
+celery worker -A celery_worker.celery --loglevel=debug -n Tokyo
+celery worker -A celery_worker.celery --loglevel=debug -n Berlin
+celery worker -A celery_worker.celery --loglevel=debug -n Nairobi
+celery worker -A celery_worker.celery --loglevel=debug -n Rio
+```
+
+Start a flower server to monitor your tasks
+```javascript
+celery -A celery_worker.celery flower
+```
+
+To test
+```python
+from celery_app.tasks.auth import c_add
+c_add.delay(3, 6)
+```
