@@ -14,13 +14,16 @@ from app.custom.seed import init_seed_script
 from app.utils.response_helper import success_response as success, \
                                       failure_response as failure, \
                                       error_response as error
+from celery_app.celery_utils import init_celery
+
+
 # Globally accessible libraries
 db = SQLAlchemy()
 ma = Marshmallow()
 mongodb = MongoAlchemy()
 
 
-def create_app():
+def create_app(**kwargs):
     """Initialize the core application."""
     app = Flask(__name__, instance_relative_config=False)
     app.config.from_pyfile('../config.py')
@@ -32,6 +35,10 @@ def create_app():
     init_logger(app)
     init_error_handler(app)
     init_hooks(app, app.config['HOOKS_REQUIRED'])
+
+    # Only initialise celery, when it has been called from the run.py.
+    if kwargs.get("celery"):
+        init_celery(kwargs.get("celery"), app)
 
     with app.app_context():
         # Import a module/component using its blueprint handler variable (auth)
