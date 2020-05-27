@@ -7,7 +7,7 @@ class DisplayMessage(object):
     WRITING_SEED_DATA = "Writing seed data for {}"
     WRITING_SUCCESSFUL = "Writing successful for {}"
     CONNECTION_REFUSED = "Unable to connect with the database. " \
-                         "Ensure connection and credentials and correct."
+                         "Ensure connection and credentials are correct."
 
 
 POOL_CHUNK_SIZE = 100
