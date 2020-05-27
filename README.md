@@ -76,3 +76,20 @@ LOG_FILE_PATH = "app/logger/logs"
 ```
 
 Now, set the `FLASK_ENV` as `local` to use the `local.env` configuration.
+
+
+## Docker-Compose Instructions
+To setup and run in detached mode before launching application:
+
+```docker-compose up -d```
+
+Installing PostgreSQL CLI Client
+
+```sudo apt-get install postgresql-client```
+
+To connect with postgreSQL using PSQL at terminal
+Username: 'postgres'
+Password: 'password'
+
+```psql -h localhost -p 5432 -U postgres -W```
+
