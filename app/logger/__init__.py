@@ -1,5 +1,5 @@
 """A package for managing logger functions"""
 
-__all__ = ['logger']
+__all__ = ['init_logger', 'logger']
 
-from .logger import logger
+from .logger import *

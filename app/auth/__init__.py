@@ -1,11 +1,10 @@
 from flask_jwt_extended import JWTManager
 from typing import Dict, Union
-
-from app import app, failure
+from flask import current_app
+from app import failure
 
 # Setup the Flask-JWT-Extended extension
-app.config['JWT_SECRET_KEY'] = app.config['JWT_SECRET_KEY']
-jwt = JWTManager(app)
+jwt = JWTManager(current_app)
 
 
 @jwt.expired_token_loader

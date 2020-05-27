@@ -1,6 +1,8 @@
 from datetime import datetime as dt
 from flask import request
 
+from app.logger import logger
+
 
 def init_hooks(app, register_hooks=False):
     """
@@ -12,7 +14,6 @@ def init_hooks(app, register_hooks=False):
     """
     if not register_hooks:
         return
-    from app import logger
 
     @app.before_first_request
     def before_first_request():

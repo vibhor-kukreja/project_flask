@@ -1,10 +1,13 @@
 """This file contains code to run seed script"""
 import json
 import os
+
+from flask import current_app
 from werkzeug.security import generate_password_hash
 
-from app import app, db, logger
+from app import db
 from app.auth.models import User
+from app.logger import logger
 from app.utils.constants import DisplayMessage
 
 
@@ -19,7 +22,7 @@ def init_database() -> None:
 
     logger.info(DisplayMessage.WRITING_SEED_DATA.format(User.__tablename__))
     auth_records_to_insert = []
-    auth_seed_path = os.path.join(app.root_path, "auth", "seed.json")
+    auth_seed_path = os.path.join(current_app.root_path, "auth", "seed.json")
     with open(auth_seed_path) as seed_data:
         auth_seed_data = json.load(seed_data)
         auth_records = auth_seed_data.get(User.__tablename__)
