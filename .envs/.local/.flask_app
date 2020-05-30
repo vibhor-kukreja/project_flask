@@ -1,0 +1,40 @@
+# General
+# ------------------------------------------------------------------------------
+DEBUG=True
+
+
+# Redis
+# ------------------------------------------------------------------------------
+REDIS_URL=redis://redis:6379
+
+# Celery
+# ------------------------------------------------------------------------------
+CELERY_SEND_TASK_SENT_EVENT=True
+
+
+# Flask
+#--------------------------------------------------------------------------------
+# Use a secure, unique and absolutely secret key for signing the data.
+FLASK_ENV=local
+CSRF_SESSION_KEY="M0n3Y_H3!5T"
+SECRET_KEY="M0n3Y_H3!5T"
+JWT_SECRET_KEY="M0n3Y_H3!5T"
+AUTH_TOKEN_TTL_MINUTES=60
+CSRF_ENABLED=True
+THREADS_PER_PAGE=2
+DATABASE_CONNECT_OPTIONS={}
+
+
+# SQL Alchemy
+#--------------------------------------------------------------------------------
+SQLALCHEMY_TRACK_MODIFICATIONS=False
+
+# Logs
+#--------------------------------------------------------------------------------
+LOG_LEVEL=DEBUG
+LOG_FILE_PATH=app/logger/logs
+
+
+# Hooks
+#--------------------------------------------------------------------------------
+HOOKS_REQUIRED=True

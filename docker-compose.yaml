@@ -1,17 +1,21 @@
 version: '3.1'
 
+volumes:
+  local_postgres_data: {}
+  local_postgres_data_backups: {}
+
 services:
   postgres_db:
-    image: postgres
+    build:
+      context: .
+      dockerfile: ./compose/postgres_db/Dockerfile
     restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: flask_db
+    env_file: 
+      - ./.envs/.local/.postgres_db
     volumes:
-      - ./data:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
+      - local_postgres_data:/var/lib/postgresql/data
+      - local_postgres_data_backups:/backups
+  
   redis:
     image: redis:6.0.3
     restart: always
@@ -19,3 +23,31 @@ services:
       - ./data:/var/lib/redis/data
     ports:
       - 6379:6379
+
+  flask_app: &flask_app
+    build: 
+      context: .
+      dockerfile: ./compose/flask_app/Dockerfile
+      args: 
+        - BUILD_ENV=local
+    image: flask_app_local
+    depends_on: 
+      - postgres_db
+    env_file: 
+      - ./.envs/.local/.flask_app
+      - ./.envs/.local/.postgres_db
+    volumes: 
+      - ./:/app
+    ports: 
+      - 3000:3000
+    command: /start.sh
+
+  celery_worker:
+    <<: *flask_app
+    image: celery_worker_local
+    depends_on: 
+      - redis
+      - postgres_db
+    ports: []
+    command: celery worker -A celery_worker.celery --loglevel=debug
+    
