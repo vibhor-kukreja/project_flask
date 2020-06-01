@@ -100,3 +100,12 @@ Connection Database: 'flask_db'
 
 ```mongo -u user -p 'password' --authenticationDatabase flask_db```
 
+
+##Testing
+We've used `pytest` framework for testing
+```
+To run the tests, go to the parent directory 
+where tests folder is present and run the 
+following command:
+     - pytest --ignore=data --cache-clear
+```
