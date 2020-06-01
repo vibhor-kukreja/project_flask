@@ -101,7 +101,7 @@ Connection Database: 'flask_db'
 ```mongo -u user -p 'password' --authenticationDatabase flask_db```
 
 
-##Testing
+## Testing
 We've used `pytest` framework for testing
 ```
 To run the tests, go to the parent directory 
