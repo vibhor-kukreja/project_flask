@@ -2,6 +2,10 @@
 
 
 class TestLogin:
+    """
+    This class contains the E2E test cases
+    for auth login method.
+    """
 
     def test_login_ok(self, test_client, init_database):
         """

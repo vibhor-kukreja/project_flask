@@ -1,8 +1,10 @@
 # All fixtures will be added here.
 # Make sure you add those fixtures
 # which have usage all over the module.
+from typing import AnyStr
 
 import pytest
+from flask_jwt_extended import JWTManager
 
 from app import create_app
 
@@ -13,6 +15,7 @@ from app import db
 def test_client():
     app = create_app()
     app.config['TESTING'] = True
+    jwt = JWTManager(app)
 
     # Flask provides a way to test your application
     # by exposing the Werkzeug test Client and
@@ -29,19 +32,15 @@ def test_client():
     ctx.pop()
 
 
-@pytest.fixture(scope='function')
-def new_user() -> object:
+def get_hashed_password(password: str) -> AnyStr:
     """
-    This method will create a new user
-    but will not save it anywhere.
-    :return: User object
+    This method will return the hashed password
+    :param password:
+    :return: Hashed password
     """
-    from app.auth.models import User
-    user = User(id=1,
-                name="TestUser",
-                email="test@email.com",
-                password="TestPassword")
-    return user
+    from werkzeug.security import generate_password_hash
+
+    return generate_password_hash(password)
 
 
 @pytest.fixture(scope='module')
@@ -52,14 +51,13 @@ def init_database():
     :return: None
     """
     from app.auth.models import User
-    from werkzeug.security import generate_password_hash
 
     db.create_all()
 
     try:
         email = "test_user@email.com"
         password = "TestPassword"
-        hashed_password = generate_password_hash(password)
+        hashed_password = get_hashed_password(password)
 
         user1 = User(
             name="TestUser",
