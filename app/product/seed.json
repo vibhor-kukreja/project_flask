@@ -2,17 +2,14 @@
   "product_item":
     [
       {
-          "item_id": 1,
           "name": "item01",
           "price": 500
       },
       {
-          "item_id": 2,
           "name": "item02",
           "price": 1000
       },
       {
-          "item_id": 3,
           "name": "item03",
           "price": 1500
       }

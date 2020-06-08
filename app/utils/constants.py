@@ -9,6 +9,8 @@ class DisplayMessage(object):
     CONNECTION_SUCCESSFUL = "Connection successful with: {}"
     CONNECTION_REFUSED = "Unable to connect with the database. " \
                          "Ensure connection and credentials are correct."
+    DATA_ALREADY_EXISTS = "Records for table: {} already exist, " \
+                          "skipping writing seed data"
 
 
 POOL_CHUNK_SIZE = 100

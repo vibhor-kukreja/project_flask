@@ -21,7 +21,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: password
       MONGO_INITDB_DATABASE: flask_db
     volumes:
-      - ./docker/mongo_db/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - ./docker/mongodb/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
       - ./data/mongodb:/data/db
     ports:
       - 27017:27017

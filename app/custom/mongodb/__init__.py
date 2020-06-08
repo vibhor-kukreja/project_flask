@@ -1,10 +1,9 @@
 from flask import Flask
 from pymodm import MongoModel, fields
-from pymodm.connection import connect, \
-                              _get_connection
+from pymodm.connection import connect
 from pymongo.errors import ServerSelectionTimeoutError
 
-from .constants import CONFIG_NOT_FOUND, DisplayMessage
+from app.utils.constants import CONFIG_NOT_FOUND, DisplayMessage
 
 
 class MongoAlchemy:
@@ -52,7 +51,10 @@ class MongoAlchemy:
         self.config["serverSelectionTimeoutMS"] = \
             app.config.get("SERVER_SELECTION_TIMEOUT") or self.server_timeout
 
-    def connect(self) -> None:
+        # connect with the database
+        self._connect()
+
+    def _connect(self) -> None:
         """
         This method will connect to the MongoDB
         via URL using a MongoClient
@@ -61,16 +63,17 @@ class MongoAlchemy:
         if not self.database_uri:
             raise KeyError(CONFIG_NOT_FOUND.format("MONGODB_DATABASE_URI"))
         connect(self.database_uri, connect=True, **self.config)
-        self.client = _get_connection().database.client
-        self.test_connection()
 
-    def test_connection(self) -> None:
+    @staticmethod
+    def test_connection(model_name: MongoModel) -> None:
         """
         This method will test the connection to ensure whether the DB
         is available or not
+        :param model_name: MongoModel instance to check connection on
         :return: None
         """
+        # TODO: To change approach on how to check if connection is established
         try:
-            self.client.admin.command('ismaster')
+            _ = list(model_name.objects.all())
         except ServerSelectionTimeoutError:
             raise IOError(DisplayMessage.CONNECTION_REFUSED)

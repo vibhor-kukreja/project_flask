@@ -1,7 +1,7 @@
 from datetime import datetime
 from pymongo import IndexModel
 
-from app import mongo_db as db
+from app import mongodb as db
 
 
 class Base(db.Model):
@@ -12,7 +12,7 @@ class Base(db.Model):
     __abstract__ = True
 
     date_created = db.fields.DateTimeField(required=True,
-                                            default=datetime.now())
+                                           default=datetime.now())
     date_modified = db.fields.DateTimeField(required=True, 
                                             default=datetime.now())
 
@@ -24,8 +24,6 @@ class Item(Base):
     __tablename__ = "product_item"
 
     name = db.fields.CharField(required=True)
-    item_id = db.fields.IntegerField(required=True, 
-                                     primary_key=True)
     price = db.fields.IntegerField(required=True)
 
     class Meta:
@@ -42,4 +40,3 @@ class Item(Base):
         """
         self.date_modified = datetime.now()
         super(Item, self).save(*args, **kwargs)
-
