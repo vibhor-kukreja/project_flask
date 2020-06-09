@@ -24,6 +24,7 @@ class TestLogin:
                                     )
         assert response.status_code == 200
         assert response.json.get('status') == 'SUCCESS'
+        assert response.json.get('data') is not None
         assert response.json.get('code') == 200
 
     def test_login_fail(self, test_client, init_database):
@@ -43,4 +44,5 @@ class TestLogin:
                                     )
         assert response.status_code == 200
         assert response.json.get('status') == 'FAILURE'
+        assert response.json.get('data') is None
         assert response.json.get('code') == 400
