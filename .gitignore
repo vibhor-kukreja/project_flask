@@ -141,3 +141,4 @@ app.db
 data/
 .idea/
 .DS_Store
+logs/

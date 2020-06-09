@@ -2,7 +2,7 @@ import traceback
 from typing import Dict
 
 
-from app.logger import logger
+from app.custom.logger import logger
 from app.utils.response_helper import error_response as error
 
 

@@ -93,3 +93,10 @@ Password: 'password'
 
 ```psql -h localhost -p 5432 -U postgres -W```
 
+To connect with Mongo_DB from terminal
+Username: 'user'
+Password: 'password'
+Connection Database: 'flask_db'
+
+```mongo -u user -p 'password' --authenticationDatabase flask_db```
+

@@ -20,8 +20,13 @@ def init_logger(app):
     # Defining the path where the logs files will be made and
     # logs of one week will be maintained and when = 'D' means
     # logs for each day in maintained in a single file
-    file_handler = logging.handlers.TimedRotatingFileHandler(
-        filename=app.config.get("LOG_FILE_PATH"), when='D')
+    try:
+        file_handler = logging.handlers.TimedRotatingFileHandler(
+            filename=app.config.get("LOG_FILE_PATH"), when='D')
+    except FileNotFoundError:
+        raise FileNotFoundError("The directory for logs doesn't exist. "
+                                "Based on configuration, Please make sure "
+                                "to make the directory to save logs")
 
     #  Stream Handler
     stream_handler = logging.StreamHandler()

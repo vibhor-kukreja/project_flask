@@ -1,7 +1,7 @@
 from datetime import datetime as dt
 from flask import request
 
-from app.logger import logger
+from app.custom.logger import logger
 
 
 def init_hooks(app, register_hooks=False):

@@ -1,0 +1,17 @@
+{
+  "product_item":
+    [
+      {
+          "name": "item01",
+          "price": 500
+      },
+      {
+          "name": "item02",
+          "price": 1000
+      },
+      {
+          "name": "item03",
+          "price": 1500
+      }
+    ]
+}
