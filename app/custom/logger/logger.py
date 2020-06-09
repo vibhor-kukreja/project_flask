@@ -19,7 +19,7 @@ def init_logger(app):
 
     # Defining the path where the logs files will be made and
     # logs of one week will be maintained and when = 'D' means
-    # logs for each day in maintained in a single file
+    # logs for each day is maintained in a single file
     try:
         file_handler = logging.handlers.TimedRotatingFileHandler(
             filename=app.config.get("LOG_FILE_PATH"), when='D')

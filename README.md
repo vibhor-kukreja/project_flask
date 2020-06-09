@@ -100,3 +100,21 @@ Connection Database: 'flask_db'
 
 ```mongo -u user -p 'password' --authenticationDatabase flask_db```
 
+
+## Testing
+We've used `pytest` framework for testing
+```
+1.  To run all the tests, go to the parent directory 
+    where tests folder is present and run the 
+    following command:
+        - pytest tests
+
+2. To run a single test case:
+        - pytest path/to/test_file.py::ClassName::TestName
+            Eg: pytest tests/unittests/auth/test_services.py::TestServices::test_create_user_ok
+
+3. To run a single file of test case:
+        - pytest path/to/test_file.py
+            Eg: Eg: pytest tests/unittests/auth/test_services.py
+
+```
