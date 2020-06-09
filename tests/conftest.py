@@ -9,6 +9,7 @@ from flask_jwt_extended import JWTManager
 from app import create_app
 
 from app import db
+from app.logger import logger
 
 
 @pytest.fixture(scope='module')
@@ -72,6 +73,10 @@ def init_database():
         db.session.commit()
 
         yield db  # This is where testing happens
+
+    except Exception as err:
+        logger.info(err)
+        raise Exception(err)
 
     finally:
         db.session.remove()
