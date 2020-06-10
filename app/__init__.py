@@ -5,6 +5,7 @@ from flask import Flask
 
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
+from flask_mail import Mail
 
 from app.exception_handler import init_error_handler
 from app.custom.mongodb import MongoAlchemy
@@ -21,6 +22,7 @@ from celery_app.celery_utils import init_celery
 db = SQLAlchemy()
 ma = Marshmallow()
 mongodb = MongoAlchemy()
+mailer = Mail()
 
 
 def create_app(**kwargs):
@@ -31,6 +33,7 @@ def create_app(**kwargs):
     db.init_app(app)
     mongodb.init_app(app)
     ma.init_app(app)
+    mailer.init_app(app)
 
     init_logger(app)
     init_error_handler(app)
