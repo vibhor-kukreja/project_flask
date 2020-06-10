@@ -25,3 +25,10 @@ services:
       - ./data/mongodb:/data/db
     ports:
       - 27017:27017
+ redis:
+    image: redis:6.0.3
+    restart: always
+    volumes:
+      - ./data/redis:/var/lib/redis/data
+    ports:
+      - 6379:6379
