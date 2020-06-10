@@ -51,3 +51,4 @@ WTForms==2.3.1
 flower==0.9.4
 zipp==3.1.0
 redis==3.5.3
+environs==8.0.0

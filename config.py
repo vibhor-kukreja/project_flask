@@ -1,9 +1,10 @@
 """Main configuration file"""
 # Define the application directory
 from os import getenv, path
-from dotenv import load_dotenv
+from environs import Env
 
 BASE_DIR = path.abspath(path.dirname(__file__))
+env = Env()
 
 current_env = getenv("FLASK_ENV") or 'local'
 if not path.exists("{}.env".format(current_env)):
@@ -12,7 +13,7 @@ if not path.exists("{}.env".format(current_env)):
 
 # loading the selected .env file
 project_folder = path.expanduser(BASE_DIR)
-load_dotenv(path.join(project_folder, "{}.env".format(current_env)))
+env.read_env(path.join(project_folder, "{}.env".format(current_env)))
 
 
 # ######################## #
@@ -20,49 +21,49 @@ load_dotenv(path.join(project_folder, "{}.env".format(current_env)))
 # ######################## #
 
 
-DEBUG = getenv('DEBUG')
+DEBUG = env('DEBUG')
 
-SQLALCHEMY_DATABASE_URI = getenv('SQLALCHEMY_DATABASE_URI')
+SQLALCHEMY_DATABASE_URI = env('SQLALCHEMY_DATABASE_URI')
 # To disable tracking modifications on Objects by Flask-SQLAlchemy
-SQLALCHEMY_TRACK_MODIFICATIONS = getenv('SQLALCHEMY_TRACK_MODIFICATIONS')
+SQLALCHEMY_TRACK_MODIFICATIONS = env('SQLALCHEMY_TRACK_MODIFICATIONS')
 # MongoDB Configuration
-MONGODB_DATABASE_URI = getenv("MONGODB_DATABASE_URI")
-MAX_POOL_SIZE = getenv("MAX_POOL_SIZE")
-MIN_POOL_SIZE = getenv("MIN_POOL_SIZE")
-MAX_IDLE_TIME = getenv("MAX_IDLE_TIME")
-CONNECTION_TIMEOUT = getenv("CONNECTION_TIMEOUT")
-HEARTBEAT_FREQUENCY = getenv("HEARTBEAT_FREQUENCY")
-SERVER_SELECTION_TIMEOUT = getenv("SERVER_SELECTION_TIMEOUT")
+MONGODB_DATABASE_URI = env("MONGODB_DATABASE_URI")
+MAX_POOL_SIZE = env.int("MAX_POOL_SIZE")
+MIN_POOL_SIZE = env.int("MIN_POOL_SIZE")
+MAX_IDLE_TIME = env.int("MAX_IDLE_TIME")
+CONNECTION_TIMEOUT = env.int("CONNECTION_TIMEOUT")
+HEARTBEAT_FREQUENCY = env.int("HEARTBEAT_FREQUENCY")
+SERVER_SELECTION_TIMEOUT = env.int("SERVER_SELECTION_TIMEOUT")
 
 
-DATABASE_CONNECT_OPTIONS = getenv('DATABASE_CONNECT_OPTIONS')
+DATABASE_CONNECT_OPTIONS = env('DATABASE_CONNECT_OPTIONS')
 
 # Application threads. A common general assumption is
 # using 2 per available processor cores - to handle
 # incoming requests using one and performing background
 # operations using the other.
-THREADS_PER_PAGE = getenv('THREADS_PER_PAGE')
+THREADS_PER_PAGE = env.int('THREADS_PER_PAGE')
 
 # Enable protection again *Cr-site Request Forgery (CSRF)*
-CSRF_ENABLED = getenv('CSRF_ENABLED')
+CSRF_ENABLED = env.bool('CSRF_ENABLED')
 
 # Use a secure, unique and absolutely secret key for
 # signing the data.
-CSRF_SESSION_KEY = getenv('CSRF_SESSION_KEY')
+CSRF_SESSION_KEY = env('CSRF_SESSION_KEY')
 
 # Secret key for signing cookies
-SECRET_KEY = getenv('SECRET_KEY')
+SECRET_KEY = env('SECRET_KEY')
 
-AUTH_TOKEN_TTL_MINUTES = getenv('AUTH_TOKEN_TTL_MINUTES')
-JWT_SECRET_KEY = getenv('JWT_SECRET_KEY')
+AUTH_TOKEN_TTL_MINUTES = env.int('AUTH_TOKEN_TTL_MINUTES')
+JWT_SECRET_KEY = env('JWT_SECRET_KEY')
 
-HOOKS_REQUIRED = getenv('HOOKS_REQUIRED')
+HOOKS_REQUIRED = env.bool('HOOKS_REQUIRED')
 
 # Logs
-LOG_LEVEL = getenv('LOG_LEVEL')
-LOG_FILE_PATH = getenv('LOG_FILE_PATH')
+LOG_LEVEL = env('LOG_LEVEL')
+LOG_FILE_PATH = env('LOG_FILE_PATH')
 
 # Celery
-CELERY_BROKER_URL = getenv('CELERY_BROKER_URL')
-CELERY_RESULT_BACKEND = getenv('CELERY_RESULT_BACKEND')
-CELERY_SEND_TASK_SENT_EVENT = getenv('CELERY_SEND_TASK_SENT_EVENT')
+CELERY_BROKER_URL = env('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
+CELERY_SEND_TASK_SENT_EVENT = env('CELERY_SEND_TASK_SENT_EVENT')
