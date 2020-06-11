@@ -45,7 +45,7 @@ def get_auth_token(email: str, password: str) -> Tuple:
     user = User.query.filter_by(email=email).first()
     if user and check_password_hash(user.password, password):
         expires = datetime.timedelta(
-            minutes=int(current_app.config['AUTH_TOKEN_TTL_MINUTES']))
+            minutes=current_app.config['AUTH_TOKEN_TTL_MINUTES'])
         access_token = create_access_token(
             identity=json.dumps({"id": user.id, "email": user.email}),
             expires_delta=expires)
