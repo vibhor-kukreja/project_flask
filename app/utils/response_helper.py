@@ -3,7 +3,10 @@ from functools import partial
 import time
 from typing import AnyStr, Dict, Union
 
+from flask import make_response
 from flask_api import status
+from werkzeug import Response
+
 from app.utils.constants import APP_NAME, DATETIME_FORMAT
 
 
@@ -47,6 +50,24 @@ class ResponseMaker(object):
 
         return self._generate_response(response_type, status_code,
                                        data, message, errors)
+
+    def pdf_response(self, **kwargs: dict) -> Response:
+        """
+        This method is responsible to get pdf and return response
+        :param kwargs: Dict
+        :return: JSON Response
+        """
+        pdf = kwargs.get("pdf")
+        pdf_name = kwargs.get('name')
+        status_code = kwargs.get('status_code')
+        response_type = self.get_status(status_code)
+
+        # Creating a response object for sending pdf file
+        response = make_response(pdf, response_type)
+        response.headers['Content-Type'] = 'application/pdf'
+        response.headers['Content-Disposition'] = 'inline;filename={}.pdf'\
+            .format(pdf_name)
+        return response
 
     @staticmethod
     def _format_response(input_arg: str) -> Union:
@@ -105,3 +126,7 @@ failure_response = partial(response_maker.build_response,
 # Response in case of error
 error_response = partial(response_maker.build_response,
                          status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+# Response in case of error
+pdf_response = partial(response_maker.pdf_response,
+                       status_code=status.HTTP_200_OK)
