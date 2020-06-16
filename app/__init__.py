@@ -43,9 +43,11 @@ def create_app(**kwargs):
     with app.app_context():
         # Import a module/component using its blueprint handler variable (auth)
         from app.auth.controllers import mod_auth as auth_module
+        from app.product.controllers import mod_product as product_module
 
         # Register blueprint(s)
         app.register_blueprint(auth_module)
+        app.register_blueprint(product_module)
 
         init_seed_script()
         return app
