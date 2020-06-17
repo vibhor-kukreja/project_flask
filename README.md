@@ -150,3 +150,27 @@ from celery_app.tasks.auth import c_add
 c_add.delay(3, 6)
 ```
 
+###PDF generation
+-------------------------------
+A binary(`wkhtmltopdf`) needs to be added to generate pdf.
+
+It can be installed from here: https://wkhtmltopdf.org/downloads.html 
+
+Template for the pdf can be added in the pdf directory inside templates. And the same name of the template file can be 
+used to referred as the template name while generating the pdf.
+
+Example:
+
+```javascript
+@mod_auth.route("/pdf/", methods=["GET"])
+@jwt_required
+def pdf_test() -> Dict:
+    """
+       API to test PDF.
+       :return: PDF bytes
+    """
+    template_name = 'welcome'
+    user = json.loads(get_jwt_identity())
+    pdf = build_pdf(template=template_name, template_data=user)
+    return pdf_response(pdf=pdf, name=template_name)
+```
