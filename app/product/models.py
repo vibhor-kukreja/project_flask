@@ -27,6 +27,8 @@ class Item(Base):
     name = db.fields.CharField(required=True)
     price = db.fields.IntegerField(required=True)
 
+    filter_list = ['name', 'price']
+
     class Meta:
         # example to have a field ensuring unique value 'name'
         indexes = [IndexModel([('name', 1)], unique=True)]
