@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import {Button} from 'reactstrap'
 
+import { NEWS_URL } from '../utilities/constants'
+
 const NewsRoom = ({socket}) => {
 
     const [room, setRoom] = useState("")
@@ -56,7 +58,7 @@ const NewsRoom = ({socket}) => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({channelName: channelName})
       };
-      fetch('http://localhost:3000/news/', requestOptions)
+      fetch(NEWS_URL, requestOptions)
           .then(response => response.json())
           .then(APIResponse => {
             setAllNews(JSON.parse(APIResponse['data']))

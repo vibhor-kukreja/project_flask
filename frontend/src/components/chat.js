@@ -1,85 +1,105 @@
 import React, {useState, useEffect} from 'react'
 import {Input, Button, Toast} from 'reactstrap'
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';  
+import { getUsersAPI, validateMessage } from '../utilities/utils';
+import { joinChat, sendMessage } from '../utilities/sockets';
+import {socket} from '../App'
 
 
-const ChatApp = ({token, socket}) => {
+const ChatApp = ({token, unsetToken}) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const toggle = () => setDropdownOpen(prevState => !prevState);
-    const [receipent, setReceipent] = useState("")
+
+    const [receipent, setReceipent] = useState(null)
     const [onlineUsers, setOnlineUsers] = useState([])
     const [messageText, setMessageText] = useState("")
     const [receivedMessages, setReceivedMessages] = useState([])
 
     useEffect(() => {
-        // to run exactly once
-        socket.on("user_joined", user => {
-            let usersNow = getUser(user)
-            setOnlineUsers(usersNow)
-        })
 
-        socket.on("user_left", user => {
-            let usersNow = removeUser(user)
-            setOnlineUsers(usersNow)
-        })
-      }, [onlineUsers.length])
-    
+        // if token exists, meaning user has logged in, hence get the user's friends from DB
+        showUsers()
+        joinChat(token)
+          
+    }, [token])
+
     useEffect(() => {
-        socket.on("message", msg => {
+
+        // Whenever socket receives a new message, append it to the existing list of messages
+        socket.on("new-message", msg => {
             setReceivedMessages([...receivedMessages, msg])
         })
 
+
     }, [receivedMessages.length])
 
+    const showUsers = async () => {
 
-    const removeUser = (user) => {
-        let nowUsers = onlineUsers.filter((singleUser) => {
-            return singleUser != user
-        })
-        return nowUsers
+        if(token){
+            // get the users from DB, based on current logged in user
+        let getUsersResponse = await getUsersAPI(token)
+        if(getUsersResponse.code == 200){
+            // if received users, display
+            let users = JSON.parse(getUsersResponse["users"])
+            // when token exists, join chat        
+            setOnlineUsers(users)            
+            
+        }else{
+            // if didn't receive, hence token expired, so unset it
+            unsetToken()
+        }
+        }
     }
 
-    const getUser = (user) => {
-        let nowUsers = onlineUsers.filter((singleUser) => {
-            return singleUser!=user
-        })
-        nowUsers.push(user)
-        return nowUsers
-    }
 
-    const sendMessage = () => {
+    const sendMessageToUser = () => {
         
-        socket.emit("message", token, receipent, messageText)
+        if(validateMessage(receipent, messageText)){
 
-        setMessageText(null)
+        //send message to specific user
+        sendMessage(token, receipent, messageText)
+
+        setMessageText("")
+        setReceipent(null)
+        }
+        
     }
 
     const showReceivedMessages = () => {
 
-        return <ul>
+        return <div style={{height: "100px", width: "400px", overflowY: "auto"}}>
             {receivedMessages.map((singleMessage) => {
-                return <li>{singleMessage}</li>
+                return <div>{singleMessage}</div>
             })}
-        </ul>
+        </div>
 
     }
 
+
     const showChatWindow = () => {
+
         return (
         <div>
-            <Input type="text" placeholder="Send Text" onChange={e => setMessageText(e.target.value)} style={{margin: "5px"}}/>
+            <Input 
+            type="text" 
+            placeholder="Write Here"
+            onChange={e => setMessageText(e.target.value)} 
+            style={{margin: "5px", width: "400px",}}  
+            value={messageText}/>
+
             <Dropdown isOpen={dropdownOpen} toggle={toggle} style={{margin: "5px"}}>
             <DropdownToggle caret>
                 {receipent ? receipent : "Choose Receipent"}
             </DropdownToggle>
             <DropdownMenu>
-                {onlineUsers.map((user) => {
+                {onlineUsers && onlineUsers.map((user) => {
                     return <DropdownItem onClick={e => setReceipent(e.target.value)} value={user}>{user}</DropdownItem>
                 })}
                 
             </DropdownMenu>
             </Dropdown>
-            <Button color="primary" onClick={sendMessage}>Send</Button>
+            <Button color="primary" onClick={sendMessageToUser}>Send</Button>
+            {receivedMessages && receivedMessages.length > 0 ? showReceivedMessages(): null}
         </div>)
     }
     
@@ -88,25 +108,8 @@ const ChatApp = ({token, socket}) => {
     <div>
         {token ? <p>SEND A HIE!</p> : <p>LOGIN TO CHAT</p>}
         {token ? showChatWindow() : null}
-        {receivedMessages && receivedMessages.length > 0 ? showReceivedMessages(): null}
     </div>
     )
 }
 
 export default ChatApp
-
-/**
- *<div style={{marginTop: "5px",display: "inline-block"}} >
-          <Input type="text" placeholder="Send Text" onChange={e => setMessage(e.target.value)}/>
-          <Input type="text" placeholder="Name" onChange={e => setReceiver(e.target.value)} style={{marginTop:"5px"}}/>
-          <Button  color="danger" onClick={sendMessage} style={{marginTop:"5px"}}>Send</Button>
-          </div>
-          {receipent ? getReceipent(): null}
-          
- */
-
- /**
-  * Login -> token -> localStorage
-  * connect -> with token -> connection with email
-  * 
-  */

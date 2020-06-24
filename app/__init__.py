@@ -40,7 +40,7 @@ def create_app(**kwargs):
     ma.init_app(app)
     mailer.init_app(app)
     redis.init_app(app)
-    socketIo.init_app(app, message_queue=app.config.get("REDIS_URI"))
+    socketIo.init_app(app, message_queue=app.config.get("REDIS_URL"))
 
     # to accept requests when running both
     # the frontend and backend on same server
@@ -57,11 +57,12 @@ def create_app(**kwargs):
     with app.app_context():
         # Import a module/component using its blueprint handler variable (auth)
         from app.auth.controllers import mod_auth as auth_module
-        from app.news.controllers import mod_socket_news as news_module
+        from app.socket.controllers import mod_socket as socket_module
+        from app.socket import socket
 
         # Register blueprint(s)
         app.register_blueprint(auth_module)
-        app.register_blueprint(news_module)
+        app.register_blueprint(socket_module)
 
         init_seed_script()
         return app

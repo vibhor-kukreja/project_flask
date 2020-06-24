@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {Button, Input} from 'reactstrap'
 
+import {loginUserAPI} from "../utilities/utils"
+import { login, logout, leaveChat } from '../utilities/sockets';
 
-const LoginForm = ({token, setToken, unsetToken, socket}) => {
+const LoginForm = ({token, setToken, unsetToken}) => {
 
     const [mail, setMail] = useState(localStorage.getItem('mail'))
     const [error, setError] = useState(null)
@@ -10,43 +12,37 @@ const LoginForm = ({token, setToken, unsetToken, socket}) => {
 
     useEffect(() => {
       if(token){
-        socket.emit("login", token)
-        socket.emit("join_room", token)
+        // if user has already logged in, try to login via socket into his room
+        login(token)
       }
     }, [])
 
-    const loginUser = () => {
-        const requestOptions = {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: mail, password: password})
-      };
-      fetch('http://localhost:3000/auth/login/', requestOptions)
-          .then(response => response.json())
-          .then(data => {
+    const loginUser = async () => {
+          let response = await loginUserAPI(mail, password)
+          if(response.type == "success"){
 
-            if(data["code"] == 200){
+                // if received token, hence the credentials were correct
+                setToken(response.token)
+                login(response.token)
 
-              setToken(data["data"])
-              setError("")
-              localStorage.setItem("mail", mail)
+                setError("")
+                localStorage.setItem("mail", mail)
 
-              // When user logs in, automatically join the chat room at the same time
-              socket.emit("login", data["data"])
-              socket.emit("join_room", data["data"])
-              
-            }
-            else
-            {
-              setError(data["message"])
-            }
-            
-          });
+          }else{
+
+                setError(response.error)
+
+          }
         }
+
+
 
     const logoutUser =() => {
 
-      socket.emit("leave_room", token)
+      // log user out of chat and remove his auth token from the localStorage
+      logout(token)
+      leaveChat(token)
+
       unsetToken()
       setMail("")
       localStorage.removeItem("mail")
@@ -82,11 +78,3 @@ const LoginForm = ({token, setToken, unsetToken, socket}) => {
 }
 
 export default LoginForm
-
-/**
-<div style={{marginTop: "20px"}}>
-        {
-          token ? showLogout() : getLoginForm() 
-        }
-        </div>
- */

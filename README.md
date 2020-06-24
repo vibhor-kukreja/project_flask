@@ -218,7 +218,7 @@ To install node packages
 
 ```npm install```
 
-While running the current instance of the project on a terminal,
+While running the current instance of the project on a terminal (flask_app on port 3000),
 on a separate terminal
 
 ```npm run start```
