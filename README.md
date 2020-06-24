@@ -174,3 +174,38 @@ def pdf_test() -> Dict:
     pdf = build_pdf(template=template_name, template_data=user)
     return pdf_response(pdf=pdf, name=template_name)
 ```
+## Emailer
+
+A service to send mail Synchronously or Asynchronously.
+
+
+#####for synchronous:
+
+import the send_mail function from mailer app
+
+```python
+from app.custom.emailer import send_mail
+
+# normal send mail utility
+send_mail(to="sender@gmail.com", template="template_name", data={'name':'shubham'}) # data is template data
+
+# send mail with attachment
+send_mail(to="sender@gmail.com", template="template_name", data={'name':'shubham'}, 
+          pdf_name="attachment.pdf", pdf="pdf_byte_string") 
+```
+
+#####for Asynchronous
+
+import the send_mail_async from celery_app
+
+```python
+from celery_app.tasks.auth import send_mail_async
+
+send_mail_async.delay("sender@gmail.com", "template_name")
+
+
+send_mail_async.apply_async(args=(["sender@gmail.com", "template_name"]), countdown=10) # countdown in sec
+```
+
+
+
