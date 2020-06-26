@@ -150,7 +150,7 @@ from celery_app.tasks.auth import c_add
 c_add.delay(3, 6)
 ```
 
-###PDF generation
+### PDF generation
 -------------------------------
 A binary(`wkhtmltopdf`) needs to be added to generate pdf.
 
@@ -179,7 +179,7 @@ def pdf_test() -> Dict:
 A service to send mail Synchronously or Asynchronously.
 
 
-#####for synchronous:
+##### For synchronous:
 
 import the send_mail function from mailer app
 
@@ -194,7 +194,7 @@ send_mail(to="sender@gmail.com", template="template_name", data={'name':'shubham
           pdf_name="attachment.pdf", pdf="pdf_byte_string") 
 ```
 
-#####for Asynchronous
+##### For Asynchronous
 
 import the send_mail_async from celery_app
 
