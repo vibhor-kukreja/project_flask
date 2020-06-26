@@ -68,8 +68,7 @@ def get_news(channel_name: AnyStr) -> List:
     top_articles = news_feed.entries[:10]
     for article in top_articles:
         news_items.append({'title': article['title'], 'link': article['link']})
-    # save_time_string(channel_name, latest_news_time)
-    # latest_news_time = news_feed.entries[0]['published']
+
     return news_items
 
 

@@ -9,11 +9,8 @@ export const getUsersAPI = async (token) => {
         body: JSON.stringify({token: token})
     };
 
-
-    APIResponse = await fetch(GET_USERS_URL, requestOptions)
-    
+    APIResponse = await fetch(GET_USERS_URL, requestOptions)    
     let response = await APIResponse.json()
-    
     if (response.code == 200){
       return {
         "code": response.code,
@@ -27,9 +24,7 @@ export const getUsersAPI = async (token) => {
         "error": response.message
       }
     }
-
   }
-
 
 
 export const loginUserAPI = async (mail, password) => {
@@ -56,13 +51,10 @@ export const loginUserAPI = async (mail, password) => {
               "type": "error",
               "error": data["message"]
             }
-            //setError(data["message"])
-          }
-          
+          }     
         });
         return APIResponse
 }
-
 
 
 export const validateMessage = (receipent, messageText) => {

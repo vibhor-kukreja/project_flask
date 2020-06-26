@@ -6,11 +6,7 @@ import { NEWS_URL } from '../utilities/constants'
 const NewsRoom = ({socket}) => {
 
     const [room, setRoom] = useState("")
-
     const [allNews, setAllNews] = useState([])
-
-
-  
   
   const getRoom = () => {
     socket.on("join", roomName => {
@@ -21,24 +17,22 @@ const NewsRoom = ({socket}) => {
 
 
     useEffect(() => {
+        // when receive socket on call for news, call method to display news
         setNews()
       }, [allNews.length])
     
-    
-      useEffect(() => {
+    useEffect(() => {
         // to run exactly once
         getRoom()
       }, [])
     
     
-      const setNews = () => {
-    
+    const setNews = () => {    
         socket.on("news", msg => {
           let newNews = JSON.parse(msg)
           setAllNews([...newNews])
         })
       }
-
 
     const showRooms = (...channels) => {
         const channel = channels.map((singleChannel) => {
@@ -51,8 +45,7 @@ const NewsRoom = ({socket}) => {
         socket.emit("sync")
       }
 
-      const joinRoom = (channelName) => {
-
+    const joinRoom = (channelName) => {
         const requestOptions = {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

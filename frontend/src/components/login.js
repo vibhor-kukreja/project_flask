@@ -20,7 +20,6 @@ const LoginForm = ({token, setToken, unsetToken}) => {
     const loginUser = async () => {
           let response = await loginUserAPI(mail, password)
           if(response.type == "success"){
-
                 // if received token, hence the credentials were correct
                 setToken(response.token)
                 login(response.token)
@@ -29,16 +28,13 @@ const LoginForm = ({token, setToken, unsetToken}) => {
                 localStorage.setItem("mail", mail)
 
           }else{
-
                 setError(response.error)
-
           }
         }
 
 
 
     const logoutUser =() => {
-
       // log user out of chat and remove his auth token from the localStorage
       logout(token)
       leaveChat(token)
@@ -46,7 +42,6 @@ const LoginForm = ({token, setToken, unsetToken}) => {
       unsetToken()
       setMail("")
       localStorage.removeItem("mail")
-
     }
 
     const getLoginForm = () => {
@@ -68,6 +63,7 @@ const LoginForm = ({token, setToken, unsetToken}) => {
           <Button color="primary" style={{marginTop: "20px"}}onClick={logoutUser}>Logout</Button>
         </div>)
       }
+      
     return (
         <div style={{height: "300px"}}>
         {
