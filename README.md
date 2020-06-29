@@ -209,3 +209,16 @@ send_mail_async.apply_async(args=(["sender@gmail.com", "template_name"]), countd
 
 
 
+
+## Running React Frontend
+
+```cd frontend/```
+
+To install node packages
+
+```npm install```
+
+While running the current instance of the project on a terminal (flask_app on port 3000),
+on a separate terminal
+
+```npm run start```
