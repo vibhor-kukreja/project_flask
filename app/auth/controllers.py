@@ -42,7 +42,7 @@ def login() -> Dict:
 
 @mod_auth.route("/test/", methods=["GET"])
 @jwt_required
-def test() -> Dict:
+def authenticate() -> Dict:
     """
        API to test AUTH.
        :return: JSON Response

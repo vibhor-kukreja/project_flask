@@ -1,3 +1,7 @@
+# All test cases related to the services will be written here.
+from tests.constants import TestConstants
+
+
 class TestServices:
     """
     This class will test the methods
@@ -13,14 +17,14 @@ class TestServices:
         THEN creates a user
         :param test_client:
         :param init_database:
-        :return:
+        :return: None
         """
 
         from app.auth.services import create_user
 
-        name = 'Test User'
-        email = 'test_user1@email.com'
-        password = 'TestPassword'
+        name = TestConstants.TEST_USER_NAME
+        email = TestConstants.TEST_USER_EMAIL_1
+        password = TestConstants.TEST_USER_PASSWORD
 
         user = create_user(name, email, password)
 
@@ -38,18 +42,18 @@ class TestServices:
         already exists
         :param test_client:
         :param init_database:
-        :return:
+        :return: None
         """
 
         from app.auth.services import create_user
 
-        name = 'Test User'
-        email = 'test_user@email.com'
-        password = 'TestPassword'
+        name = TestConstants.TEST_USER_NAME
+        email = TestConstants.TEST_USER_EMAIL
+        password = TestConstants.TEST_USER_PASSWORD
 
         user = create_user(name, email, password)
 
-        assert str(user[0]) == 'Email already exists'
+        assert str(user[0]) == TestConstants.EMAIL_ALREADY_EXISTS
         assert user[1] is None
 
     def test_get_auth_token_ok(self,
@@ -62,13 +66,13 @@ class TestServices:
         THEN return an auth token
         :param test_client:
         :param init_database:
-        :return:
+        :return: None
         """
 
         from app.auth.services import get_auth_token
 
-        email = 'test_user@email.com'
-        password = 'TestPassword'
+        email = TestConstants.TEST_USER_EMAIL
+        password = TestConstants.TEST_USER_PASSWORD
 
         token = get_auth_token(email, password)
 
@@ -85,17 +89,17 @@ class TestServices:
         THEN return an error
         :param test_client:
         :param init_database:
-        :return:
+        :return: None
         """
 
         from app.auth.services import get_auth_token
 
-        email = 'test_user2@email.com'
-        password = 'TestPassword'
+        email = TestConstants.TEST_USER_EMAIL_2
+        password = TestConstants.TEST_USER_PASSWORD
 
         token = get_auth_token(email, password)
 
-        assert str(token[0]) == "Invalid credentials"
+        assert str(token[0]) == TestConstants.INVALID_CREDENTIALS
         assert token[1] is None
 
     def test_get_auth_token_fail2(self,
@@ -108,15 +112,15 @@ class TestServices:
         THEN return an error due to wrong password
         :param test_client:
         :param init_database:
-        :return:
+        :return: None
         """
 
         from app.auth.services import get_auth_token
 
-        email = 'test_user2@email.com'
-        password = 'WrongPassword'
+        email = TestConstants.TEST_USER_EMAIL_2
+        password = TestConstants.WRONG_PASSWORD
 
         token = get_auth_token(email, password)
 
-        assert str(token[0]) == "Invalid credentials"
+        assert str(token[0]) == TestConstants.INVALID_CREDENTIALS
         assert token[1] is None

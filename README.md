@@ -112,7 +112,44 @@ Connection Database: 'flask_db'
 
 
 ## Testing
-We've used `pytest` framework for testing
+We've used `pytest` framework for testing.
+To know how to setup the test cases in pytest. Follow the steps
+written below:
+```
+1. Create a directory "tests" in which all the functional and unit tests will
+   be written.
+
+2. At the project's root level (eg. where requirements.txt is present), create
+   a file "pytest.ini" which will run before all the tests. We can write
+   setup initials for the tests here.
+
+3. Create a file "conftest.py". After "pytest.ini", the flow comes to this file.
+   This file will contain all the fixtures which will be used all over the
+   "tests" directory in almost each and every test case.
+   You can have a look at the setup fixtures like 'test_client()' or
+   'init_database()' for getting an idea in the same file.
+   Fixtures can have scopes like module, function, class and session.
+   By default, all fixtures have functional scope. To use fixtures in the test
+   cases just pass the fixtures as parameter in each test case accordingly.
+
+4. You can segregate the functional and unit tests in different folders
+   according to your use case.
+
+5. For functional test cases, you can have a look at 'test_login_ok()' in
+   'tests/unittests/auth/test_controllers.py'
+
+6. For unit test cases, you can have a look at any of the test case in
+   'tests/unittests/auth/test_services.py'
+
+7. For mocking any function, you can use 'module_mocker'/'mocker' which is
+   provided by pytest-mock library, in the test cases whichever suits the best
+   according to the test case.
+   To know how to mock, you can refer to the 'test_authenticate_ok()' in
+   'tests/unittests/auth/test_controllers.py'.
+
+```
+
+Running test cases:
 ```
 1.  To run all the tests, go to the parent directory 
     where tests folder is present and run the 
