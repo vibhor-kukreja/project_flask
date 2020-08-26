@@ -141,5 +141,4 @@ app.db
 data/
 .idea/
 .DS_Store
-logs/
 frontend/node_modules/
